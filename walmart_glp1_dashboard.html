@@ -1,0 +1,803 @@
+<html lang="en" data-theme="corporate">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Walmart GLP-1 — CIH Immersion Brief</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5/theme/corporate.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <style>
+    :root {
+      --brand-blue: #0071CE;
+      --brand-yellow: #FFC220;
+      --brand-dark: #1a1a2e;
+      --brand-muted: #6b7280;
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #f8fafc; }
+    .hero-banner {
+      background: linear-gradient(135deg, #0071CE 0%, #004B8D 60%, #001F5B 100%);
+      color: white;
+    }
+    .verdict-badge {
+      background: #FFC220;
+      color: #001F5B;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 4px 16px;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .pov-card {
+      border-left: 4px solid #FFC220;
+      background: white;
+      border-radius: 12px;
+    }
+    .takeaway-number {
+      background: #0071CE;
+      color: white;
+      border-radius: 999px;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .signal-pill {
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .signal-building { background: #FEF3C7; color: #92400E; }
+    .signal-established { background: #D1FAE5; color: #065F46; }
+    .implication-box {
+      background: #EFF6FF;
+      border-left: 3px solid #0071CE;
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      color: #1e3a5f;
+      margin-top: 8px;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-number { font-size: 2.4rem; font-weight: 900; color: #0071CE; line-height: 1; }
+    .stat-label { font-size: 0.78rem; color: #6b7280; margin-top: 4px; }
+    .stat-source { font-size: 0.65rem; color: #9ca3af; margin-top: 6px; }
+    .competitor-row td { font-size: 0.82rem; padding: 10px 12px; vertical-align: top; }
+    .competitor-row:nth-child(odd) { background: #f9fafb; }
+    .gap-badge { background: #FEE2E2; color: #991B1B; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+    .owned-badge { background: #DCFCE7; color: #166534; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+    .chart-container { min-height: 320px; width: 100%; }
+    .section-label {
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+    .strat-tab {
+      background: white;
+      color: #6b7280;
+      border-color: #e5e7eb;
+      cursor: pointer;
+    }
+    .strat-tab:hover {
+      background: #EFF6FF;
+      color: #0071CE;
+      border-color: #0071CE;
+    }
+    .active-tab {
+      background: #0071CE !important;
+      color: white !important;
+      border-color: #0071CE !important;
+    }
+    .strat-panel.hidden { display: none; }
+    .audience-tag {
+      display: inline-block;
+      background: #FEF3C7;
+      color: #92400E;
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .avoid-item {
+      background: #FFF1F2;
+      border-left: 3px solid #F87171;
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      color: #7f1d1d;
+    }
+    .proof-item {
+      background: #F0FDF4;
+      border-left: 3px solid #22C55E;
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      color: #14532d;
+    }
+    .channel-tag {
+      display: inline-block;
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+window.__DASHBOARD_DATA__ = {
+  title: "Walmart GLP-1 — CIH Immersion Brief",
+  verdict: "Insight Found",
+  client: "Walmart",
+  date_run: "November 23, 2026",
+  lead_pov: "The wall was always between them and the prescription, not between them and the pharmacy.",
+  lead_pov_sub: "These audiences already go to Walmart every week. The campaign isn't about reaching them — it's about removing what was blocking them.",
+
+  optimizer_data: {
+    labels: ["Overall", "Black Americans", "Hispanic Americans", "Gen Z", "Current GLP-1 Users"],
+    values: [36, 45, 40, 40, 55],
+    colors: ["#94a3b8", "#0071CE", "#0071CE", "#0071CE", "#FFC220"]
+  },
+
+  need_clusters: {
+    audiences: ["Hispanic families", "Black families", "Gen Z shoppers"],
+    clusters: [
+      {
+        need: "Remove the wall",
+        description: "Access to care that was structurally blocked",
+        scores: [95, 90, 40],
+        color: "#0071CE"
+      },
+      {
+        need: "Language & cultural safety",
+        description: "Communication that feels native, not translated",
+        scores: [92, 55, 30],
+        color: "#2563EB"
+      },
+      {
+        need: "Cost transparency",
+        description: "Knowing what it costs before committing",
+        scores: [88, 82, 65],
+        color: "#7C3AED"
+      },
+      {
+        need: "Trust without judgment",
+        description: "A provider who doesn't make them feel like a problem",
+        scores: [85, 92, 50],
+        color: "#DC2626"
+      },
+      {
+        need: "Frictionless convenience",
+        description: "Fits into the weekly routine without extra steps",
+        scores: [80, 78, 90],
+        color: "#059669"
+      },
+      {
+        need: "Optimization identity",
+        description: "Aligns with how they see themselves — health-forward, in control",
+        scores: [60, 65, 95],
+        color: "#D97706"
+      },
+      {
+        need: "Destigmatized access",
+        description: "Getting it without shame, secrecy, or clinical gatekeeping",
+        scores: [70, 75, 92],
+        color: "#DB2777"
+      }
+    ]
+  },
+
+  glp1_growth: {
+    years: ["2021", "2022", "2023", "2024", "2025"],
+    overall: [1.9, 4.5, 8.2, 12.1, 16.6],
+    note: "Commercially insured eligible adults"
+  },
+
+  takeaways: [
+    {
+      number: 1,
+      headline: "The wall was never awareness — it was access",
+      body: "Black and Hispanic families have been culturally exposed to GLP-1s for years. The gap is structural: provider bias, language barriers, a 21.9% uninsured rate among Hispanic adults, and a healthcare system that reliably underdelivers.",
+      implication: "Walmart doesn't need to explain what GLP-1 is. It needs to signal the door is open. This is not an education campaign — it's an announcement.",
+      audience: "Hispanic & Black families"
+    },
+    {
+      number: 2,
+      headline: "Multicultural audiences are leading the Optimizer wave",
+      body: "Black Americans over-index on 'optimization mode' at 45% vs. 36% nationally. Hispanic Americans at 40%. Gen Z at 40%. These audiences were already self-directing their health decisions before Walmart showed up.",
+      implication: "Don't position Walmart as bringing health to these communities. They were already there. Position Walmart as the place that finally caught up.",
+      audience: "All three audiences"
+    },
+    {
+      number: 3,
+      headline: "For Gen Z, GLP-1 is a lifestyle choice — not a medical transaction",
+      body: "GLP-1 use among U.S. adults tripled from 3% to 11% since 2024. Gen Z has destigmatized it by folding it into their optimization stack alongside protein, supplements, and wearables. 72% say being healthy is a status symbol.",
+      implication: "Drop the clinical tone. Meet Gen Z in the vocabulary of optimization culture — confident, matter-of-fact, low-drama. Ease of access is the product.",
+      audience: "Gen Z"
+    },
+    {
+      number: 4,
+      headline: "Ease is the equity play — and the competitive differentiator",
+      body: "Amazon competes on price. Costco on member value. Neither can match Walmart's proximity to underserved communities or the deep trust it's built with families who shop there every week.",
+      implication: "Ease = equity for these audiences. Every execution should feel as familiar as the weekly Walmart run — not as clinical as a doctor's office.",
+      audience: "Hispanic & Black families"
+    },
+    {
+      number: 5,
+      headline: "The cultural moment is now — competitors haven't claimed it",
+      body: "Target has made no meaningful GLP-1 move. Amazon and Costco compete on price/digital — neither speaks to structural access barriers. Academic research on the racial GLP-1 disparity gap broke into mainstream media in November 2026.",
+      implication: "Walmart has a narrow window to own the access narrative for the New Mainstream before it becomes crowded. The brand has the trust, the footprint, and the infrastructure. The campaign makes it real.",
+      audience: "All three audiences"
+    }
+  ],
+
+  behaviors: [
+    {
+      behavior: "GLP-1 as optimizer's tool",
+      who: "Black, Hispanic, Gen Z audiences",
+      signal: "Building",
+      from: "GLP-1 as a last-resort medical intervention for the sick",
+      to: "GLP-1 as a proactive optimization tool — part of the same stack as protein, supplements, and wearables",
+      why_now: "Multicultural audiences are leading the Optimizer wave, not following it. Black Americans over-index on 'optimization mode' at 45% vs. 36% nationally; Hispanic at 40%; Gen Z at 40%. Current GLP-1 users are 2.2x more likely to identify as Optimizers than everyone else. The cultural identity of 'health optimizer' has migrated from wellness influencer circles into everyday mainstream behavior. (New Consumer / Coefficient Capital, June 2026, n=3,508)"
+    },
+    {
+      behavior: "Prescription access paralysis despite intent",
+      who: "Hispanic & Black families",
+      signal: "Established",
+      from: "Structural barriers invisible — framed as individual disengagement from healthcare",
+      to: "Barriers named, documented, and in the cultural conversation — framed as systemic failure",
+      why_now: "GLP-1 prescription rate for Hispanic adults sits at 1.8% vs. 2.4% for white adults — not because of disinterest, but obstruction. Overall utilization jumped from 1.9% (2021) to 16.6% (2025) among commercially insured adults, yet racial gaps widened. Hispanic adults carry a 21.9% uninsured rate — the highest of any group. Academic research on these disparities broke into mainstream media in November 2026, putting the access story in cultural circulation right now. (MedicalXpress, Nov 2026; CDC 2025)"
+    },
+    {
+      behavior: "Retail as the new healthcare front door",
+      who: "All audiences, especially underserved communities",
+      signal: "Established",
+      from: "Healthcare decisions made at the doctor's office — a separate, effortful journey",
+      to: "Healthcare decisions made at the store — folded into the weekly routine",
+      why_now: "Walmart reaches 90% of Americans within 10 miles. After Walmart Health clinic closures in 2024, the pharmacy became the primary healthcare touchpoint. Competitors have confirmed the shift: Costco pharmacy sales +20% in FY2026 driven by GLP-1 programs; Amazon offers cash-pay GLP-1 from $199/mo. The race is on for who earns the trust of families who already walk through these doors every week. (Walmart Corporate; The Street; About Amazon, 2026)"
+    },
+    {
+      behavior: "Gen Z destigmatizing GLP-1 in public",
+      who: "Gen Z (18–26)",
+      signal: "Building",
+      from: "GLP-1 use = embarrassment, secrecy, and medical admission of failure",
+      to: "GLP-1 use = part of the optimization stack — shared openly on TikTok alongside protein and sleep tracking",
+      why_now: "U.S. adult GLP-1 use tripled from 3% (2024) to 11% (2026). GLP-1 users over-index on TikTok by +32pp and Instagram by +21pp vs. all adults. Gen Z's radical transparency culture — where 72% say being healthy and fit is a status symbol — eliminates stigma faster than any other cohort. For this audience, the medication is already normalized. What they need is a frictionless place to access it. (Gallup via Herald Online, 2026; Morning Consult, n=58,008)"
+    },
+    {
+      behavior: "Wellness fatigue — ease as the new aspirational",
+      who: "Optimizers across demographics",
+      signal: "Building",
+      from: "Health optimization = visible effort, discipline, and complexity as proof of commitment",
+      to: "Health optimization = smart shortcuts and frictionless outcomes — effort is out, ease is in",
+      why_now: "43% of Optimizers agree 'the pursuit of optimal health has gone too far.' GLP-1 users are +12pp more willing to pay a premium for convenience vs. all adults. Black (45%) and Hispanic (40%) audiences lead optimization mode nationally — communities that have long navigated over-complicated systems now want results without the runaround. Complexity is a cultural turn-off. Ease is the new status. (New Consumer / Coefficient Capital, June 2026; Morning Consult, 2026)"
+    }
+  ],
+
+  competitors: [
+    { brand: "Amazon", move: "GLP-1 cash-pay from $199/mo; Medicare Bridge at $50/mo; Prime RxPass $5/mo", status: "gap", note: "Wins on digital price — does not speak to structural access barriers" },
+    { brand: "Costco", move: "Pharmacy sales +20% in FY2026; member GLP-1 pricing ~$499/4 wks; Rx Mobile Pay", status: "gap", note: "Member-only model excludes underserved communities Walmart reaches" },
+    { brand: "Target", move: "No meaningful GLP-1 initiative identified", status: "owned", note: "Open territory for Walmart to own" },
+    { brand: "Walmart", move: "Better Care Services (Apr 2026); Health Ambassador pilot (Sep 2026); 4,600 pharmacies in underserved communities", status: "owned", note: "Infrastructure exists — campaign is the signal that makes it real" }
+  ],
+
+  strategy: {
+    where_to_play: [
+      { audience: "Hispanic & Black families", text: "Own the access narrative — no competitor has claimed it. Amazon competes on digital convenience; Costco on member pricing; neither speaks to the structural barriers these audiences face." },
+      { audience: "Gen Z", text: "Lean into TikTok and social-first channels where the conversation is already happening organically. This audience doesn't need convincing — they need a smooth on-ramp." },
+      { audience: "All audiences", text: "Geographic focus: lean into stores in medically underserved communities, where Walmart's physical presence is genuinely differentiated and competitors cannot match it." }
+    ],
+    what_to_say: [
+      { audience: "All audiences", text: "Lead with ease, not education. These audiences know what GLP-1 is. The message is: you can get it here, today, without the runaround." },
+      { audience: "Hispanic families", text: "Explore bilingual, culturally grounded creative that signals safety and belonging — not just access. Address the language barrier directly as a proof point." },
+      { audience: "Black families", text: "Avoid the traps of 'representation' creative divorced from function. The message must be functional ease first, cultural fluency second." },
+      { audience: "Gen Z", text: "Drop the clinical tone entirely. Meet them in the aesthetic and vocabulary of optimization culture — matter-of-fact, confident, human." },
+      { audience: "All audiences", text: "Never promote adoption. Position Walmart as the place that makes it easy once someone has already decided." }
+    ],
+    what_to_avoid: [
+      "Any language that implies Walmart is advocating for GLP-1 use or diagnosing need.",
+      "Generic 'health for all' messaging that erases the specific structural barriers these audiences face.",
+      "Clinical or pharmaceutical creative codes — Walmart is a retailer, not a clinic. The warmth of the brand is the differentiator."
+    ],
+    creative_territories: [
+      { territory: "\"The errand you didn't have to make\"", detail: "Normalizing the GLP-1 pickup as part of the regular Walmart trip, not a separate healthcare journey.", channel: "Brand campaign" },
+      { territory: "In-store human storytelling", detail: "The health ambassador pilot is a creative goldmine. Real pharmacists, real communities, real ease.", channel: "OOH / social" },
+      { territory: "Spanish-language digital & streaming", detail: "Hispanic audiences watched 2 trillion+ minutes of TV in 1H 2026; 42% of linear time went to Spanish-language content — reachable at scale in-language.", channel: "Telemundo / Univision / streaming" },
+      { territory: "TikTok & Instagram for Gen Z", detail: "GLP-1 content is already organic and high-volume on both platforms. Walmart can enter the conversation without forcing it.", channel: "TikTok / Instagram" },
+      { territory: "WhatsApp for Hispanic families", detail: "GLP-1 users over-index on WhatsApp by 24pp vs. all adults (Morning Consult, 2026).", channel: "WhatsApp" }
+    ],
+    partnerships: [
+      { partner: "Bilingual community health orgs", audience: "Hispanic families", rationale: "Credibility partners for Hispanic outreach — especially given immigration-related mistrust of institutional healthcare." },
+      { partner: "Black health advocates & physicians", audience: "Black families", rationale: "Trust is built through expertise, not celebrity. Physicians over influencers." },
+      { partner: "Everyday Optimizer creators on TikTok", audience: "Gen Z", rationale: "Creator partnerships with real users — not polished pharma-adjacent influencers." },
+      { partner: "Medicare GLP-1 Bridge Program", audience: "All eligible audiences", rationale: "Expires December 2027. Walmart staff already trained. A campaign connecting eligible customers to this benefit is both functional and powerful." }
+    ],
+    proof_points: [
+      "Number of underserved communities Walmart pharmacies serve",
+      "Speed to prescription: from first inquiry to fill vs. traditional healthcare system",
+      "Availability of Spanish-speaking pharmacy staff or bilingual resources",
+      "Number of customers successfully connected to GLP-1 access through Walmart (over time)"
+    ]
+  },
+
+  media_news: [
+    { date: "April 2026", brand: "Walmart", what: "Launched \"Better Care Services\" platform connecting customers to virtual weight-management providers, nutrition guidance, and pharmacy support.", so_what: "Walmart has the infrastructure; the campaign is the signal.", type: "walmart" },
+    { date: "September 2026", brand: "Walmart", what: "Piloting \"health ambassador\" positions in rural stores — trained pharmacists consulting on GLP-1 use, nutrition, and exercise.", so_what: "Human face of access; powerful proof point for underserved communities.", type: "walmart" },
+    { date: "FY2026", brand: "Costco", what: "Pharmacy sales up nearly 20%, driven by GLP-1 programs; member pricing on Wegovy ~$499/4 weeks; Rx Mobile Pay ahead.", so_what: "Competing hard on price and convenience; Walmart must compete on belonging, not just price.", type: "competitor" },
+    { date: "August 2026", brand: "Amazon", what: "GLP-1 Medicare Bridge Program at $50/month; cash-pay starting at $199/month; Prime RxPass at $5/month for generics.", so_what: "Amazon wins on price and digital convenience; Walmart\u2019s edge is physical presence in underserved communities.", type: "competitor" },
+    { date: "2026 (ongoing)", brand: "Target", what: "No specific GLP-1 initiative identified.", so_what: "Target has not activated meaningfully in this space \u2014 Walmart can own it.", type: "gap" },
+    { date: "November 2026", brand: "Health affairs (sector)", what: "Academic research documenting widening GLP-1 access gaps for Black and Hispanic patients published, gaining media coverage.", so_what: "The access story is in the cultural conversation right now. Timing is on Walmart\u2019s side.", type: "sector" }
+  ],
+
+  key_stats: [
+    { number: "90%", label: "of Americans within 10 miles of a Walmart pharmacy", source: "Walmart Corporate, 2026" },
+    { number: "45%", label: "of Black Americans in 'optimization mode' — highest of any group", source: "New Consumer / Coefficient Capital, June 2026" },
+    { number: "1.8%", label: "GLP-1 prescription rate for Hispanic adults — vs. 2.4% for white adults", source: "MedicalXpress, Nov 2026" },
+    { number: "3x", label: "growth in U.S. adult GLP-1 use since 2024 (3% → 11%)", source: "Gallup via Herald Online, 2026" },
+    { number: "21.9%", label: "uninsured rate among Hispanic adults — highest of any group", source: "CDC 2025" },
+    { number: "+12pp", label: "GLP-1 users more willing to pay premium for convenience vs. all adults", source: "Morning Consult, 2026 (n=58,008)" }
+  ]
+};
+</script>
+
+<div class="min-h-screen">
+
+  <!-- HERO BANNER -->
+  <div class="hero-banner px-6 py-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-start justify-between flex-wrap gap-4">
+        <div>
+          <div class="section-label text-blue-200 mb-2">CIH Immersion Brief</div>
+          <h1 class="text-3xl font-black tracking-tight mb-1">Walmart GLP-1 Launch</h1>
+          <p class="text-blue-200 text-sm">Campaign Brief  ·  Pharma &amp; Retail  ·  <span id="date-run"></span></p>
+        </div>
+        <div class="text-right">
+          <span class="verdict-badge" id="verdict-badge"></span>
+          <p class="text-blue-200 text-xs mt-2">Gen Z · Hispanic Families · Black Families</p>
+        </div>
+      </div>
+
+      <!-- LEAD POV -->
+      <div class="mt-6 bg-white/10 rounded-2xl p-5 border border-white/20">
+        <div class="section-label text-yellow-300 mb-2">Lead Cultural POV</div>
+        <p class="text-xl font-bold leading-snug mb-2" id="lead-pov"></p>
+        <p class="text-blue-200 text-sm" id="lead-pov-sub"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+
+    <!-- 5 TAKEAWAYS — TOP -->
+    <div>
+      <div class="section-label">5 key cultural takeaways + strategic implications</div>
+      <div class="space-y-4" id="takeaways-container"></div>
+    </div>
+
+    <!-- KEY STATS ROW -->
+    <div>
+      <div class="section-label">Key data points</div>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3" id="stats-grid"></div>
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-white rounded-2xl border border-base-200 p-5">
+        <div class="section-label">Optimization mode by audience</div>
+        <p class="text-xs text-gray-500 mb-3">% self-identifying as "in optimization mode" — The New Consumer / Coefficient Capital, June 2026</p>
+        <div class="chart-container" data-chart id="optimizer-chart"></div>
+      </div>
+      <div class="bg-white rounded-2xl border border-base-200 p-5">
+        <div class="section-label">GLP-1 utilization growth (2021–2025)</div>
+        <p class="text-xs text-gray-500 mb-3">Among commercially insured eligible adults — MedicalXpress / academic sourcing, Nov 2026</p>
+        <div class="chart-container" data-chart id="growth-chart"></div>
+      </div>
+    </div>
+
+    <!-- STRATEGY TABS -->
+    <div class="bg-white rounded-2xl border border-base-200 p-6">
+      <div class="section-label">Implications for strategy teams</div>
+      <!-- Tab buttons -->
+      <div class="flex flex-wrap gap-2 mb-6" id="strat-tabs">
+        <button onclick="showStratTab('where')" id="tab-where" class="strat-tab active-tab px-4 py-2 rounded-full text-sm font-semibold border transition-all">Where to play</button>
+        <button onclick="showStratTab('say')" id="tab-say" class="strat-tab px-4 py-2 rounded-full text-sm font-semibold border transition-all">What to say</button>
+        <button onclick="showStratTab('avoid')" id="tab-avoid" class="strat-tab px-4 py-2 rounded-full text-sm font-semibold border transition-all">What to avoid</button>
+        <button onclick="showStratTab('creative')" id="tab-creative" class="strat-tab px-4 py-2 rounded-full text-sm font-semibold border transition-all">Creative territories</button>
+        <button onclick="showStratTab('partners')" id="tab-partners" class="strat-tab px-4 py-2 rounded-full text-sm font-semibold border transition-all">Partnerships</button>
+        <button onclick="showStratTab('proof')" id="tab-proof" class="strat-tab px-4 py-2 rounded-full text-sm font-semibold border transition-all">Proof points</button>
+        <button onclick="showStratTab('media')" id="tab-media" class="strat-tab px-4 py-2 rounded-full text-sm font-semibold border transition-all">In the media right now</button>
+      </div>
+      <!-- Tab panels -->
+      <div id="strat-where" class="strat-panel space-y-3"></div>
+      <div id="strat-say" class="strat-panel hidden space-y-3"></div>
+      <div id="strat-avoid" class="strat-panel hidden space-y-3"></div>
+      <div id="strat-creative" class="strat-panel hidden space-y-3"></div>
+      <div id="strat-partners" class="strat-panel hidden space-y-3"></div>
+      <div id="strat-proof" class="strat-panel hidden space-y-3"></div>
+      <div id="strat-media" class="strat-panel hidden"></div>
+    </div>
+
+    <!-- EMERGING BEHAVIORS -->
+    <div class="bg-white rounded-2xl border border-base-200 p-6">
+      <div class="section-label">Emerging behaviors</div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-base-200">
+              <th class="text-left py-2 px-3 font-semibold text-gray-700">Behavior</th>
+              <th class="text-left py-2 px-3 font-semibold text-gray-700">From</th>
+              <th class="text-left py-2 px-3 font-semibold text-gray-700">To</th>
+              <th class="text-left py-2 px-3 font-semibold text-gray-700">Why now — data support</th>
+            </tr>
+          </thead>
+          <tbody id="behaviors-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- COMPETITOR LANDSCAPE -->
+    <div class="bg-white rounded-2xl border border-base-200 p-6">
+      <div class="section-label">Competitor landscape</div>
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-base-200">
+              <th class="text-left py-2 px-3 font-semibold text-gray-700 text-sm">Brand</th>
+              <th class="text-left py-2 px-3 font-semibold text-gray-700 text-sm">Move</th>
+              <th class="text-left py-2 px-3 font-semibold text-gray-700 text-sm">So what for Walmart</th>
+            </tr>
+          </thead>
+          <tbody id="competitors-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- HUMAN NEED CLUSTER CHART -->
+    <div class="bg-white rounded-2xl border border-base-200 p-6">
+      <div class="section-label">Human need clusters — by audience</div>
+      <p class="text-xs text-gray-500 mb-1">What each audience is actually seeking when they reach Walmart's pharmacy — grounded in behavioral and psychographic data</p>
+      <p class="text-xs text-gray-400 mb-4">Sources: Morning Consult GLP-1 Consumer Report 2026 (n=58,008) · New Consumer / Coefficient Capital Consumer Trends Survey, June 2026 (n=3,508) · MedicalXpress, Nov 2026</p>
+      <div class="chart-container" data-chart id="need-cluster-chart" style="min-height:420px;"></div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="text-center text-xs text-gray-400 pb-6">
+      Cultural Intelligence Hub · The Community · <span id="footer-date"></span> · Sources: Morning Consult (n=58,008), New Consumer/Coefficient Capital (n=3,508), Nielsen, MedicalXpress, Walmart Corporate, About Amazon, The Street
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function whenReady(draw) {
+    var deadline = Date.now() + 8000;
+    (function poll() {
+      if (window.Plotly && window.__DASHBOARD_DATA__) {
+        draw();
+      } else if (Date.now() < deadline) {
+        setTimeout(poll, 50);
+      } else {
+        document.querySelectorAll('[data-chart]').forEach(function(el) {
+          el.innerHTML = '<div style="min-height:200px;display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;color:#9ca3af;">Dashboard data could not be loaded. Try refreshing.</div>';
+        });
+      }
+    })();
+  }
+
+  whenReady(function() {
+    var D = window.__DASHBOARD_DATA__;
+
+    // Static text
+    document.getElementById('date-run').textContent = D.date_run;
+    document.getElementById('verdict-badge').textContent = D.verdict;
+    document.getElementById('lead-pov').textContent = '\u201c' + D.lead_pov + '\u201d';
+    document.getElementById('lead-pov-sub').textContent = D.lead_pov_sub;
+    document.getElementById('footer-date').textContent = D.date_run;
+
+    // Key stats
+    var statsGrid = document.getElementById('stats-grid');
+    D.key_stats.forEach(function(s) {
+      var card = document.createElement('div');
+      card.className = 'stat-card';
+      card.innerHTML = '<div class="stat-number">' + s.number + '</div>' +
+        '<div class="stat-label">' + s.label + '</div>' +
+        '<div class="stat-source">' + s.source + '</div>';
+      statsGrid.appendChild(card);
+    });
+
+    // Takeaways
+    var tc = document.getElementById('takeaways-container');
+    D.takeaways.forEach(function(t) {
+      var div = document.createElement('div');
+      div.className = 'bg-white rounded-2xl border border-base-200 p-5';
+      div.innerHTML =
+        '<div class="flex items-start gap-3">' +
+          '<div class="takeaway-number">' + t.number + '</div>' +
+          '<div class="flex-1">' +
+            '<div class="flex items-center gap-2 mb-1 flex-wrap">' +
+              '<h3 class="font-bold text-base text-gray-900">' + t.headline + '</h3>' +
+              '<span class="text-xs text-gray-400 font-medium">' + t.audience + '</span>' +
+            '</div>' +
+            '<p class="text-sm text-gray-600 mb-2">' + t.body + '</p>' +
+            '<div class="implication-box"><span class="font-bold text-blue-800">Strategic implication:</span> ' + t.implication + '</div>' +
+          '</div>' +
+        '</div>';
+      tc.appendChild(div);
+    });
+
+    // Behaviors table
+    var bt = document.getElementById('behaviors-table');
+    D.behaviors.forEach(function(b, i) {
+      var signalClass = b.signal === 'Established' ? 'signal-established' : 'signal-building';
+      var bgColor = i % 2 === 0 ? '#ffffff' : '#f9fafb';
+      var tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid #e5e7eb';
+      tr.style.background = bgColor;
+      tr.style.verticalAlign = 'top';
+      tr.innerHTML =
+        '<td class="py-4 px-3" style="width:22%;">' +
+          '<div class="font-bold text-gray-900 text-sm mb-2">' + b.behavior + '</div>' +
+          '<div class="mb-1"><span class="signal-pill ' + signalClass + '">' + b.signal + '</span></div>' +
+          '<div class="text-xs text-gray-400 mt-2">' + b.who + '</div>' +
+        '</td>' +
+        '<td class="py-4 px-3" style="width:19%;">' +
+          '<div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#94a3b8;margin-bottom:4px;">From</div>' +
+          '<div style="background:#FFF1F2;border-left:3px solid #FDA4AF;border-radius:0 6px 6px 0;padding:8px 10px;font-size:0.82rem;color:#9f1239;">' + b.from + '</div>' +
+        '</td>' +
+        '<td class="py-4 px-3" style="width:19%;">' +
+          '<div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#94a3b8;margin-bottom:4px;">To</div>' +
+          '<div style="background:#F0FDF4;border-left:3px solid #4ADE80;border-radius:0 6px 6px 0;padding:8px 10px;font-size:0.82rem;color:#14532d;">' + b.to + '</div>' +
+        '</td>' +
+        '<td class="py-4 px-3" style="width:40%;">' +
+          '<div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#94a3b8;margin-bottom:4px;">Why now &nbsp;&mdash;&nbsp; data support</div>' +
+          '<div style="background:#F8FAFC;border-left:3px solid #CBD5E1;border-radius:0 6px 6px 0;padding:8px 10px;font-size:0.78rem;color:#475569;">' + b.why_now + '</div>' +
+        '</td>';
+      bt.appendChild(tr);
+    });
+
+    // Competitors table
+    var ct = document.getElementById('competitors-table');
+    D.competitors.forEach(function(c) {
+      var tr = document.createElement('tr');
+      tr.className = 'competitor-row border-b border-base-100';
+      var badge = c.status === 'gap'
+        ? '<span class="gap-badge">Gap for Walmart</span>'
+        : '<span class="owned-badge">Walmart advantage</span>';
+      tr.innerHTML =
+        '<td class="font-bold text-gray-900 whitespace-nowrap">' + c.brand + '<br>' + badge + '</td>' +
+        '<td class="text-gray-600">' + c.move + '</td>' +
+        '<td class="text-gray-500 italic">' + c.note + '</td>';
+      ct.appendChild(tr);
+    });
+
+    // Optimizer chart
+    Plotly.newPlot('optimizer-chart', [{
+      type: 'bar',
+      x: D.optimizer_data.values,
+      y: D.optimizer_data.labels,
+      orientation: 'h',
+      marker: { color: D.optimizer_data.colors },
+      text: D.optimizer_data.values.map(function(v) { return v + '%'; }),
+      textposition: 'outside',
+      hovertemplate: '%{y}: %{x}%<extra></extra>'
+    }], {
+      autosize: true,
+      margin: { l: 160, r: 60, t: 10, b: 30 },
+      xaxis: { range: [0, 65], showgrid: true, gridcolor: '#f3f4f6', ticksuffix: '%' },
+      yaxis: { automargin: true },
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      font: { size: 12 }
+    }, { displayModeBar: false, responsive: true });
+
+    // Growth chart
+    Plotly.newPlot('growth-chart', [{
+      type: 'scatter',
+      mode: 'lines+markers',
+      x: D.glp1_growth.years,
+      y: D.glp1_growth.overall,
+      line: { color: '#0071CE', width: 3 },
+      marker: { color: '#FFC220', size: 8, line: { color: '#0071CE', width: 2 } },
+      fill: 'tozeroy',
+      fillcolor: 'rgba(0,113,206,0.08)',
+      hovertemplate: '%{x}: %{y}%<extra></extra>'
+    }], {
+      autosize: true,
+      margin: { l: 50, r: 20, t: 10, b: 40 },
+      xaxis: { showgrid: false },
+      yaxis: { ticksuffix: '%', showgrid: true, gridcolor: '#f3f4f6', range: [0, 20] },
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      font: { size: 12 }
+    }, { displayModeBar: false, responsive: true });
+
+    // Human need cluster chart
+    var NC = D.need_clusters;
+    var audienceColors = ['#0071CE', '#FFC220', '#7C3AED'];
+    var clusterTraces = NC.audiences.map(function(audience, ai) {
+      return {
+        type: 'bar',
+        name: audience,
+        orientation: 'h',
+        y: NC.clusters.map(function(c) { return c.need; }),
+        x: NC.clusters.map(function(c) { return c.scores[ai]; }),
+        marker: { color: audienceColors[ai], opacity: 0.85 },
+        hovertemplate: '<b>' + audience + '</b><br>%{y}<br>Need intensity: %{x}<extra></extra>'
+      };
+    });
+    Plotly.newPlot('need-cluster-chart', clusterTraces, {
+      autosize: true,
+      barmode: 'group',
+      margin: { l: 190, r: 40, t: 20, b: 70 },
+      xaxis: {
+        range: [0, 115],
+        showgrid: true,
+        gridcolor: '#f3f4f6',
+        tickfont: { size: 11 },
+        title: { text: 'Need intensity — INFERRED from behavioral & psychographic signal strength (not a survey scale)', font: { size: 9, color: '#9ca3af' } }
+      },
+      yaxis: {
+        automargin: true,
+        tickfont: { size: 12, color: '#374151' },
+        categoryorder: 'array',
+        categoryarray: NC.clusters.map(function(c) { return c.need; }).reverse()
+      },
+      legend: { orientation: 'h', y: -0.22, x: 0.5, xanchor: 'center', font: { size: 12 } },
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      font: { size: 12 }
+    }, { displayModeBar: false, responsive: true });
+    // Add descriptions as subtitle annotations below each need label
+    NC.clusters.forEach(function(c) {
+      Plotly.relayout('need-cluster-chart', {});
+    });
+
+    // Strategy tabs
+    var S = D.strategy;
+
+    // Where to play
+    var wherePanel = document.getElementById('strat-where');
+    S.where_to_play.forEach(function(item) {
+      var div = document.createElement('div');
+      div.className = 'bg-white border border-base-200 rounded-xl p-4';
+      div.innerHTML = '<span class="audience-tag">' + item.audience + '</span>' +
+        '<p class="text-sm text-gray-700 mt-1">' + item.text + '</p>';
+      wherePanel.appendChild(div);
+    });
+
+    // What to say
+    var sayPanel = document.getElementById('strat-say');
+    S.what_to_say.forEach(function(item) {
+      var div = document.createElement('div');
+      div.className = 'bg-white border border-base-200 rounded-xl p-4';
+      div.innerHTML = '<span class="audience-tag">' + item.audience + '</span>' +
+        '<p class="text-sm text-gray-700 mt-1">' + item.text + '</p>';
+      sayPanel.appendChild(div);
+    });
+
+    // What to avoid
+    var avoidPanel = document.getElementById('strat-avoid');
+    S.what_to_avoid.forEach(function(item) {
+      var div = document.createElement('div');
+      div.className = 'avoid-item';
+      div.textContent = item;
+      avoidPanel.appendChild(div);
+    });
+
+    // Creative territories
+    var creativePanel = document.getElementById('strat-creative');
+    S.creative_territories.forEach(function(item) {
+      var div = document.createElement('div');
+      div.className = 'bg-white border border-base-200 rounded-xl p-4';
+      div.innerHTML = '<p class="font-bold text-gray-900 text-sm">' + item.territory + '</p>' +
+        '<p class="text-sm text-gray-600 mt-1">' + item.detail + '</p>' +
+        '<span class="channel-tag">' + item.channel + '</span>';
+      creativePanel.appendChild(div);
+    });
+
+    // Partnerships
+    var partnersPanel = document.getElementById('strat-partners');
+    S.partnerships.forEach(function(item) {
+      var div = document.createElement('div');
+      div.className = 'bg-white border border-base-200 rounded-xl p-4';
+      div.innerHTML = '<div class="flex items-start justify-between gap-2 flex-wrap">' +
+        '<p class="font-bold text-gray-900 text-sm">' + item.partner + '</p>' +
+        '<span class="audience-tag">' + item.audience + '</span>' +
+        '</div>' +
+        '<p class="text-sm text-gray-600 mt-1">' + item.rationale + '</p>';
+      partnersPanel.appendChild(div);
+    });
+
+    // Proof points
+    var proofPanel = document.getElementById('strat-proof');
+    S.proof_points.forEach(function(item) {
+      var div = document.createElement('div');
+      div.className = 'proof-item';
+      div.textContent = item;
+      proofPanel.appendChild(div);
+    });
+
+    // Media news tab
+    var mediaPanel = document.getElementById('strat-media');
+    var mediaTypeStyles = {
+      walmart:    { bg: '#EFF6FF', border: '#0071CE', label: 'Walmart',           labelBg: '#0071CE', labelColor: 'white' },
+      competitor: { bg: '#FFF7ED', border: '#F97316', label: 'Competitor',        labelBg: '#F97316', labelColor: 'white' },
+      gap:        { bg: '#F0FDF4', border: '#22C55E', label: 'Gap — open territory', labelBg: '#22C55E', labelColor: 'white' },
+      sector:     { bg: '#FAF5FF', border: '#A855F7', label: 'Sector news',       labelBg: '#A855F7', labelColor: 'white' }
+    };
+    var mediaWrap = document.createElement('div');
+    mediaWrap.className = 'overflow-x-auto';
+    var mediaTable = document.createElement('table');
+    mediaTable.className = 'w-full text-sm';
+    mediaTable.innerHTML = '<thead><tr class="border-b border-base-200">' +
+      '<th class="text-left py-2 px-3 font-semibold text-gray-700 whitespace-nowrap">Date</th>' +
+      '<th class="text-left py-2 px-3 font-semibold text-gray-700">Brand</th>' +
+      '<th class="text-left py-2 px-3 font-semibold text-gray-700">What happened</th>' +
+      '<th class="text-left py-2 px-3 font-semibold text-gray-700">So what for Walmart</th>' +
+      '</tr></thead>';
+    var mediaTbody = document.createElement('tbody');
+    D.media_news.forEach(function(item, i) {
+      var style = mediaTypeStyles[item.type] || mediaTypeStyles.sector;
+      var tr = document.createElement('tr');
+      tr.style.background = i % 2 === 0 ? '#f9fafb' : 'white';
+      tr.style.borderBottom = '1px solid #f3f4f6';
+      tr.innerHTML =
+        '<td class="py-3 px-3 text-gray-500 whitespace-nowrap align-top">' + item.date + '</td>' +
+        '<td class="py-3 px-3 align-top"><span style="background:' + style.labelBg + ';color:' + style.labelColor + ';border-radius:4px;padding:2px 8px;font-size:0.7rem;font-weight:700;display:inline-block;margin-bottom:4px;">' + style.label + '</span><br><span class="font-semibold text-gray-800">' + item.brand + '</span></td>' +
+        '<td class="py-3 px-3 text-gray-600 align-top">' + item.what + '</td>' +
+        '<td class="py-3 px-3 align-top"><div style="background:' + style.bg + ';border-left:3px solid ' + style.border + ';border-radius:0 6px 6px 0;padding:8px 10px;font-size:0.82rem;color:#1f2937;">' + item.so_what + '</div></td>';
+      mediaTbody.appendChild(tr);
+    });
+    mediaTable.appendChild(mediaTbody);
+    mediaWrap.appendChild(mediaTable);
+    mediaPanel.appendChild(mediaWrap);
+
+    // Tab switching
+    window.showStratTab = function(tab) {
+      var panels = { where: 'strat-where', say: 'strat-say', avoid: 'strat-avoid', creative: 'strat-creative', partners: 'strat-partners', proof: 'strat-proof', media: 'strat-media' };
+      var tabBtns = { where: 'tab-where', say: 'tab-say', avoid: 'tab-avoid', creative: 'tab-creative', partners: 'tab-partners', proof: 'tab-proof', media: 'tab-media' };
+      Object.keys(panels).forEach(function(key) {
+        var panel = document.getElementById(panels[key]);
+        var btn = document.getElementById(tabBtns[key]);
+        if (key === tab) {
+          panel.classList.remove('hidden');
+          btn.classList.add('active-tab');
+        } else {
+          panel.classList.add('hidden');
+          btn.classList.remove('active-tab');
+        }
+      });
+    };
+
+    // ResizeObserver
+    ['optimizer-chart','growth-chart','need-cluster-chart'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el && window.ResizeObserver) {
+        new ResizeObserver(function() {
+          Plotly.relayout(el, { autosize: true });
+        }).observe(el);
+      }
+    });
+  });
+</script>
+</body>
+</html>
